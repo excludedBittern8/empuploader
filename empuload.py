@@ -1,4 +1,5 @@
 
+
 #! /usr/bin/env python3
 
 """
@@ -299,15 +300,36 @@ def create_upload_form(arguments):
     tags=t[1]
     desc=t[2]
     torrent=create_torrent(path,basename,trackerurl,torrents)
+    torrent = {'file_input': open(torrent,'rb')}
+    cookies=cookie={"searchPanelState":"expanded","torrentDetailsState":"%5B%221%22%2C%221%22%2C%221%22%2C%221%22%2C%221%22%5D","tagsort":"%5B%22uses%22%2C%22desc%22%5D","torrentDetailsToolState":"expanded","SL_GWPT_Show_Hide_tmp":"1","SL_wptGlobTipTmp":"1","userPageState":"%5B%220%22%2C%221%22%2C%221%22%2C%220%22%2C%220%22%2C%220%22%2C%220%22%2C%220%22%2C%220%22%2C%221%22%2C%220%22%2C%221%22%2C%220%22%2C%221%22%2C%221%22%2C%221%22%2C%221%22%2C%221%22%5D,requestDetailsState:%5B%221%22%2C%221%22%2C%221%22%5D","sid":"%05%E6-%AFi%17%02%A6%CE%26I%CE5.%A4%E1%9E%C4%29L%17%3F%AEN%97%1E%7B%83%AE%13Qt%85%94%A9%D0%2C%9A%AD%FFE%10%CAZ%C4%92%E6Z%0C%BD%0F%97D%7E%FA%40sG%EC%9Fa3%12%F0","cid":"h%FF%1A%E0E%0AK%C2%EA%2A%1F%E7s%11%9AxB%2C%F5I%C4+%8A%DD%95%ED%15%8F%97%18%EF%8D%02c%FC%FC%A7o%60p%07%8A%C53%0EF%2F%AF6Q%FE%D8%B6%01%BA%3A7%FF%C4R%E0%2C%C1%D1"}
+    empurl="https://www.empornium.me/upload.php"
+    headers= {
+  'Upgrade-Insecure-Requests': '1',
+  'Origin': 'https://www.empornium.me',
+  'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarycPKQ6ZAmjTPUS1KM',
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4404.132 Safari/537.36',
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+}
 
 
+    form = {'title' :  title,
+            'taglist'  : 'bbw ssbbw pawg red.head onlyfans.com twerkin pale booty.shaking',
+            'image' : createcovergif(path,dir,basename,txtlocation),
+            'desc' : desc,
+            'auth' :'q74iwm9qecdkjc93uw0r202ifxgqobn3',
+            'category'  : 1,
+            'anonymous' : 0,
+            'submit' : 'true',
+            'ignoredupes': 1,
+            'autocomplete_toggle' : "on"
 
-    form = {'Title' :  title,
-            'tags'  : tags,
-            'Cover' : createcovergif(path,dir,basename,txtlocation),
-            'Description' : desc
 
             }
+    temp="/home/main/Tools/torrents/txt/Dirty/test.html"
+    temp= open(temp,'w')
+    upload=requests.post(url=empurl,cookies=cookies,files=torrent, data=form,headers=headers)
+    temp.write(upload.text)
+    print(upload.url)
     with open(output, 'w') as f:
         for key, value in form.items():
             f.write('%s:%s\n' % (key, value))
